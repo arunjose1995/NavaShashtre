@@ -1,0 +1,111 @@
+{% extends 'layouts/base.html' %}
+
+{% block title %} Asset {% endblock title %}
+
+{% block content %}
+
+    <!-- Header -->
+    <div class="header bg-gradient-primary pb-8 pt-5 pt-md-8">
+      <div class="container-fluid align-items-center">
+        <div class="row mt-5">
+          <div class="col-lg-7 col-md-10">
+            <a href="javascript:history.back()" class="btn btn-info">Back</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container-fluid mt--7">
+
+      <div class="row">
+        <div class="col-xl-12 order-xl-1">
+          <div class="card bg-secondary shadow">
+            <div class="card-header bg-white border-0">
+              <div class="row align-items-center">
+                <div class="col-12">
+                  <h3 class="mb-0">
+                    {% if user %}
+                    Edit User
+                    {% else %}
+                    Add User
+                    {% endif %}
+                    {% if msg %}<span class="float-right" style="color: red">{{msg}}</span>{% endif %}
+                  </h3>
+                </div>
+              </div>
+            </div>
+            <div class="card-body">
+              <form action="{% if user %}{% url 'update-user' user_id=user.id %}{% else %}{% url 'save-user'%}{% endif %}" method="post">
+                {% csrf_token %}
+                <h6 class="heading-small text-muted mb-4">User information</h6>
+                <div class="pl-lg-4">
+                  <div class="row">
+                    <div class="col-lg-6">
+                      <div class="form-group">
+                        <label class="form-control-label" for="fname">First Name</label>
+                        {% if user %}
+                        <input type="text" id="fname" name="first_name" required class="form-control form-control-alternative" value="{{user.first_name}}">
+                        {% else %}
+                        <input type="text" id="fname" name="first_name" required class="form-control form-control-alternative">
+                        {% endif %}
+                      </div>
+                    </div>
+                    <div class="col-lg-6">
+                      <div class="form-group">
+                        <label class="form-control-label" for="lname">Last Name</label>
+                         {% if user %}
+                          <input type="text" id="lname" name="last_name" required class="form-control form-control-alternative" value="{{user.last_name}}">
+                          {% else %}
+                          <input type="text" id="lname" name="last_name"  class="form-control form-control-alternative" >
+                          {% endif %}
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-lg-6">
+                      <div class="form-group">
+                        <label class="form-control-label" for="username">Username</label>
+                        {% if user %}
+                        <input type="text" id="username" required name="username" class="form-control form-control-alternative" value="{{user.username}}">
+                        {% else %}
+                        <input type="text" id="username" required name="username" class="form-control form-control-alternative">
+                        {% endif %}
+                      </div>
+                    </div>
+                    <div class="col-lg-6">
+                      <div class="form-group">
+                        <label class="form-control-label" for="email">Email</label>
+                        {% if user %}
+                        <input type="email" id="email" required name="email" class="form-control form-control-alternative" value="{{user.email}}" >
+                        {% else %}
+                        <input type="email" id="email" required name="email" class="form-control form-control-alternative" >
+                        {% endif %}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-lg-12">
+                     <button type="submit" class="btn btn-primary float-right text-white">
+                       {% if user %}
+                       Update User
+                       {% else %}
+                       Save User
+                       {% endif %}
+                     </button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {% include "includes/footer.html" %}
+
+    </div>
+
+{% endblock content %}
+
+<!-- Specific JS goes HERE -->
+{% block javascripts %}{% endblock javascripts %}
